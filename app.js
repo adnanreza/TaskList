@@ -1,7 +1,7 @@
 // Define UI Vars
 const form = document.querySelector("#task-form");
 const taskList = document.querySelector(".collection");
-const clearBtb = document.querySelector(".clear-tasks");
+const clearBtn = document.querySelector(".clear-tasks");
 const filter = document.querySelector("#filter");
 const taskInput = document.querySelector("#task");
 
@@ -12,8 +12,10 @@ loadEventListeners();
 function loadEventListeners() {
   // Add task event
   form.addEventListener("submit", addTask);
-  // Remove task even -- use event delegation!
+  // Remove task event -- use event delegation!
   taskList.addEventListener("click", removeTask);
+  // Clear tasks event
+  clearBtn.addEventListener("click", clearTasks);
 }
 
 // function: addTask
@@ -52,6 +54,17 @@ function removeTask(e) {
       e.target.parentElement.parentElement.remove();
     }
   }
+}
 
-  //taskList.addEvent
+// function: clearTasks
+function clearTasks(e) {
+  /**
+   * Hacky way:
+   * taskList.innerHTML = '';
+   * Ref: https://jsperf.com/innerhtml-vs-removechild/47
+   */
+  // loop through and remove first child while it exists
+  while (taskList.firstChild) {
+    taskList.removeChild(taskList.firstChild);
+  }
 }
